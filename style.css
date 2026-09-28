@@ -40,33 +40,38 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 1rem;
     transition: background 0.3s, color 0.3s;
 }
 
 .container {
     max-width: 960px;
     margin: 0 auto;
+    width: 100%;
 }
 
+/* ===== Header ===== */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.3rem;
+    gap: 1rem;
 }
 
 h1 {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     font-weight: 700;
 }
 
 .header-actions {
     display: flex;
     gap: 0.5rem;
+    flex-shrink: 0;
 }
 
-.dark-mode-btn, .icon-btn {
+.dark-mode-btn,
+.icon-btn {
     background: none;
     border: 2px solid var(--border);
     width: 42px;
@@ -81,65 +86,88 @@ h1 {
     justify-content: center;
 }
 
-.dark-mode-btn:hover, .icon-btn:hover {
+.dark-mode-btn:hover,
+.icon-btn:hover {
     border-color: var(--primary);
     transform: scale(1.05);
 }
 
+/* ===== Toolbar ===== */
 .toolbar {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.75rem;
     margin-bottom: 1rem;
-    flex-wrap: wrap;
 }
 
 #searchInput {
     flex: 1;
-    min-width: 180px;
-    padding: 0.8rem 1.1rem;
+    padding: 0.8rem 1rem;
     border: 2px solid var(--border);
     border-radius: 12px;
     font-size: 0.95rem;
     background: var(--container-bg);
     color: var(--text);
     outline: none;
+    min-width: 0; /* penting untuk flex */
 }
 
-#searchInput:focus { border-color: var(--primary); }
+#searchInput:focus {
+    border-color: var(--primary);
+}
 
 .btn {
-    padding: 0.75rem 1.3rem;
+    padding: 0.75rem 1.25rem;
     border: none;
     border-radius: 12px;
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
-.btn.primary { background: var(--primary); color: white; }
-.btn.primary:hover { background: var(--primary-hover); }
+.btn.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn.primary:hover {
+    background: var(--primary-hover);
+}
+
 .btn.secondary {
     background: transparent;
     border: 2px solid var(--border);
     color: var(--text-secondary);
 }
-.btn.secondary:hover { border-color: var(--text-secondary); }
-.btn.danger { background: var(--danger); color: white; }
 
+.btn.secondary:hover {
+    border-color: var(--text-secondary);
+}
+
+.btn.danger {
+    background: var(--danger);
+    color: white;
+}
+
+/* ===== Controls ===== */
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.3rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    gap: 0.7rem;
 }
 
-.filters { display: flex; gap: 0.4rem; }
+.filters {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
 
 .filter-btn {
-    padding: 0.4rem 0.9rem;
+    padding: 0.4rem 0.85rem;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-secondary);
@@ -149,7 +177,11 @@ h1 {
     transition: all 0.2s;
 }
 
-.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 .filter-btn.active {
     background: var(--primary);
     color: white;
@@ -165,11 +197,11 @@ h1 {
     font-size: 0.85rem;
 }
 
-/* Form */
+/* ===== Form ===== */
 .note-form-container {
     background: var(--container-bg);
     border-radius: 16px;
-    padding: 1.4rem;
+    padding: 1.3rem;
     margin-bottom: 1.5rem;
     box-shadow: var(--shadow);
     animation: slideDown 0.3s ease;
@@ -180,7 +212,9 @@ h1 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-#noteTitle, #noteContent, #noteTags {
+#noteTitle,
+#noteContent,
+#noteTags {
     width: 100%;
     padding: 0.8rem 1rem;
     border: 2px solid var(--border);
@@ -192,11 +226,26 @@ h1 {
     margin-bottom: 0.7rem;
 }
 
-#noteTitle { font-size: 1.1rem; font-weight: 600; }
-#noteContent { font-size: 0.95rem; resize: vertical; min-height: 140px; }
-#noteTags { font-size: 0.9rem; }
+#noteTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
 
-#noteTitle:focus, #noteContent:focus, #noteTags:focus { border-color: var(--primary); }
+#noteContent {
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 140px;
+}
+
+#noteTags {
+    font-size: 0.9rem;
+}
+
+#noteTitle:focus,
+#noteContent:focus,
+#noteTags:focus {
+    border-color: var(--primary);
+}
 
 .form-meta {
     font-size: 0.8rem;
@@ -206,7 +255,7 @@ h1 {
 
 .form-row {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.75rem;
     align-items: center;
     margin-bottom: 1rem;
     flex-wrap: wrap;
@@ -228,19 +277,22 @@ h1 {
     cursor: pointer;
 }
 
-.form-actions { display: flex; gap: 0.7rem; }
+.form-actions {
+    display: flex;
+    gap: 0.7rem;
+}
 
-/* Notes Grid */
+/* ===== Notes Grid ===== */
 .notes-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1rem;
 }
 
 .note-card {
     background: var(--container-bg);
     border-radius: 14px;
-    padding: 1.2rem;
+    padding: 1.15rem;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
@@ -252,7 +304,7 @@ h1 {
 
 .note-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .note-card.yellow { border-left-color: #eab308; background: var(--yellow); }
@@ -269,10 +321,10 @@ h1 {
 }
 
 .note-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    padding-right: 1.6rem;
+    margin-bottom: 0.45rem;
+    padding-right: 1.5rem;
     word-break: break-word;
 }
 
@@ -282,7 +334,7 @@ h1 {
     flex: 1;
     white-space: pre-wrap;
     word-break: break-word;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.65rem;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
@@ -293,19 +345,19 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.65rem;
 }
 
 .tag {
     font-size: 0.72rem;
-    background: rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.08);
     padding: 0.15rem 0.5rem;
     border-radius: 10px;
     color: var(--text-secondary);
 }
 
 body.dark-mode .tag {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .note-footer {
@@ -325,21 +377,23 @@ body.dark-mode .tag {
     padding: 0.25rem;
 }
 
-.note-actions button:hover { opacity: 1; }
+.note-actions button:hover {
+    opacity: 1;
+}
 
 .empty-message {
     text-align: center;
-    padding: 4rem 1rem;
+    padding: 3.5rem 1rem;
     color: var(--text-secondary);
     font-size: 1.05rem;
     line-height: 1.6;
 }
 
-/* Modal */
+/* ===== Modal ===== */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -350,7 +404,7 @@ body.dark-mode .tag {
 .modal-content {
     background: var(--container-bg);
     border-radius: 18px;
-    padding: 1.8rem;
+    padding: 1.6rem;
     width: 100%;
     max-width: 560px;
     max-height: 85vh;
@@ -362,7 +416,7 @@ body.dark-mode .tag {
 .close-btn {
     position: absolute;
     top: 1rem;
-    right: 1.2rem;
+    right: 1.1rem;
     background: none;
     border: none;
     font-size: 1.6rem;
@@ -371,9 +425,10 @@ body.dark-mode .tag {
 }
 
 #modalTitle {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     margin-bottom: 0.4rem;
     padding-right: 2rem;
+    word-break: break-word;
 }
 
 .modal-meta {
@@ -386,7 +441,7 @@ body.dark-mode .tag {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.1rem;
 }
 
 .modal-body {
@@ -394,7 +449,7 @@ body.dark-mode .tag {
     line-height: 1.7;
     white-space: pre-wrap;
     word-break: break-word;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
 }
 
 .modal-actions {
@@ -403,12 +458,120 @@ body.dark-mode .tag {
     flex-wrap: wrap;
 }
 
-.hidden { display: none !important; }
+.hidden {
+    display: none !important;
+}
 
-@media (max-width: 500px) {
-    .toolbar { flex-direction: column; }
-    .btn { width: 100%; }
-    .notes-list { grid-template-columns: 1fr; }
-    .controls { flex-direction: column; align-items: stretch; }
-    .form-row { flex-direction: column; align-items: stretch; }
+/* ============================== */
+/*       RESPONSIVE BREAKPOINTS  */
+/* ============================== */
+
+/* Tablet dan di bawahnya */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.45rem;
+    }
+
+    .notes-list {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+/* HP */
+@media (max-width: 560px) {
+    body {
+        padding: 0.9rem 0.75rem;
+    }
+
+    h1 {
+        font-size: 1.35rem;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .toolbar .btn {
+        width: 100%;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filter-btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    #sortSelect {
+        width: 100%;
+    }
+
+    .notes-list {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #noteColor,
+    #noteTags {
+        width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .modal-content {
+        padding: 1.3rem;
+        max-height: 90vh;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions .btn {
+        width: 100%;
+    }
+
+    .note-form-container {
+        padding: 1.1rem;
+    }
+}
+
+/* HP kecil */
+@media (max-width: 380px) {
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    .dark-mode-btn,
+    .icon-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .filter-btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.8rem;
+    }
 }
