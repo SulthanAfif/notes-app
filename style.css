@@ -11,13 +11,14 @@
     --text-secondary: #64748b;
     --primary: #3b82f6;
     --primary-hover: #2563eb;
+    --danger: #ef4444;
     --border: #e2e8f0;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    --yellow: #fef08a;
-    --blue: #bfdbfe;
-    --green: #bbf7d0;
-    --pink: #fbcfe8;
-    --purple: #e9d5ff;
+    --yellow: #fef9c3;
+    --blue: #dbeafe;
+    --green: #dcfce7;
+    --pink: #fce7f3;
+    --purple: #f3e8ff;
 }
 
 body.dark-mode {
@@ -27,11 +28,11 @@ body.dark-mode {
     --text-secondary: #94a3b8;
     --border: #334155;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --yellow: #854d0e;
+    --yellow: #713f12;
     --blue: #1e3a8a;
     --green: #14532d;
     --pink: #9d174d;
-    --purple: #6b21a8;
+    --purple: #581c87;
 }
 
 body {
@@ -44,7 +45,7 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -52,7 +53,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
 }
 
 h1 {
@@ -60,19 +61,28 @@ h1 {
     font-weight: 700;
 }
 
-.dark-mode-btn {
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.dark-mode-btn, .icon-btn {
     background: none;
     border: 2px solid var(--border);
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     cursor: pointer;
     color: var(--text);
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.dark-mode-btn:hover {
+.dark-mode-btn:hover, .icon-btn:hover {
     border-color: var(--primary);
     transform: scale(1.05);
 }
@@ -81,13 +91,13 @@ h1 {
 .toolbar {
     display: flex;
     gap: 0.8rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
 }
 
 #searchInput {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px;
     padding: 0.8rem 1.1rem;
     border: 2px solid var(--border);
     border-radius: 12px;
@@ -97,12 +107,10 @@ h1 {
     outline: none;
 }
 
-#searchInput:focus {
-    border-color: var(--primary);
-}
+#searchInput:focus { border-color: var(--primary); }
 
 .btn {
-    padding: 0.8rem 1.4rem;
+    padding: 0.75rem 1.3rem;
     border: none;
     border-radius: 12px;
     font-size: 0.95rem;
@@ -111,23 +119,56 @@ h1 {
     transition: all 0.2s;
 }
 
-.btn.primary {
-    background: var(--primary);
-    color: white;
-}
-
-.btn.primary:hover {
-    background: var(--primary-hover);
-}
-
+.btn.primary { background: var(--primary); color: white; }
+.btn.primary:hover { background: var(--primary-hover); }
 .btn.secondary {
     background: transparent;
     border: 2px solid var(--border);
     color: var(--text-secondary);
 }
+.btn.secondary:hover { border-color: var(--text-secondary); }
+.btn.danger { background: var(--danger); color: white; }
 
-.btn.secondary:hover {
-    border-color: var(--text-secondary);
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.3rem;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.filters {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.filter-btn {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+#sortSelect {
+    padding: 0.45rem 0.8rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--container-bg);
+    color: var(--text);
+    font-size: 0.85rem;
 }
 
 /* Form */
@@ -145,37 +186,35 @@ h1 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-#noteTitle {
+#noteTitle, #noteContent {
     width: 100%;
     padding: 0.8rem 1rem;
     border: 2px solid var(--border);
     border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
     background: var(--bg);
     color: var(--text);
-    margin-bottom: 0.8rem;
     outline: none;
+    font-family: inherit;
+    margin-bottom: 0.7rem;
+}
+
+#noteTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 #noteContent {
-    width: 100%;
-    padding: 0.9rem 1rem;
-    border: 2px solid var(--border);
-    border-radius: 10px;
     font-size: 0.95rem;
-    background: var(--bg);
-    color: var(--text);
     resize: vertical;
-    min-height: 120px;
-    margin-bottom: 0.9rem;
-    outline: none;
-    font-family: inherit;
+    min-height: 140px;
 }
 
-#noteTitle:focus,
-#noteContent:focus {
-    border-color: var(--primary);
+#noteTitle:focus, #noteContent:focus { border-color: var(--primary); }
+
+.form-meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
 }
 
 .form-row {
@@ -187,12 +226,11 @@ h1 {
 }
 
 #noteColor {
-    padding: 0.6rem 0.9rem;
+    padding: 0.55rem 0.8rem;
     border: 2px solid var(--border);
     border-radius: 8px;
     background: var(--bg);
     color: var(--text);
-    font-size: 0.9rem;
 }
 
 .pin-label {
@@ -211,7 +249,7 @@ h1 {
 /* Notes Grid */
 .notes-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 1rem;
 }
 
@@ -224,12 +262,13 @@ h1 {
     flex-direction: column;
     transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
-    border-left: 5px solid transparent;
+    border-left: 5px solid #94a3b8;
+    cursor: pointer;
 }
 
 .note-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
 .note-card.yellow { border-left-color: #eab308; background: var(--yellow); }
@@ -241,29 +280,27 @@ h1 {
 .note-card.pinned::before {
     content: "📌";
     position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 0.9rem;
+    top: 12px;
+    right: 14px;
 }
 
 .note-title {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    padding-right: 1.5rem;
+    padding-right: 1.6rem;
     word-break: break-word;
 }
 
 .note-content {
     font-size: 0.9rem;
-    color: var(--text);
-    opacity: 0.85;
+    opacity: 0.9;
     flex: 1;
     white-space: pre-wrap;
     word-break: break-word;
     margin-bottom: 0.9rem;
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -276,47 +313,90 @@ h1 {
     color: var(--text-secondary);
 }
 
-.note-actions {
-    display: flex;
-    gap: 0.4rem;
-}
-
 .note-actions button {
     background: none;
     border: none;
     font-size: 1rem;
     cursor: pointer;
     opacity: 0.7;
-    padding: 0.2rem;
-    transition: opacity 0.2s;
+    padding: 0.25rem;
 }
 
-.note-actions button:hover {
-    opacity: 1;
-}
+.note-actions button:hover { opacity: 1; }
 
 .empty-message {
     text-align: center;
     padding: 4rem 1rem;
     color: var(--text-secondary);
     font-size: 1.05rem;
-    line-height: 1.6;
 }
 
-.hidden {
-    display: none !important;
+/* Modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 1rem;
 }
+
+.modal-content {
+    background: var(--container-bg);
+    border-radius: 18px;
+    padding: 1.8rem;
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+#modalTitle {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    padding-right: 2rem;
+}
+
+.modal-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.2rem;
+}
+
+.modal-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.hidden { display: none !important; }
 
 @media (max-width: 500px) {
-    .toolbar {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-    }
-
-    .notes-list {
-        grid-template-columns: 1fr;
-    }
+    .toolbar { flex-direction: column; }
+    .btn { width: 100%; }
+    .notes-list { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; align-items: stretch; }
 }

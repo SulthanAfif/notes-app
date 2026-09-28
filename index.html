@@ -10,21 +10,42 @@
     <div class="container">
         <header>
             <h1>Notes App</h1>
-            <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+            <div class="header-actions">
+                <button id="exportBtn" class="icon-btn" title="Export">📥</button>
+                <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+            </div>
         </header>
 
-        <!-- Search & Add -->
+        <!-- Toolbar -->
         <div class="toolbar">
             <input type="text" id="searchInput" placeholder="Cari catatan...">
-            <button id="addNoteBtn" class="btn primary">+ Catatan Baru</button>
+            <button id="addNoteBtn" class="btn primary">+ Baru</button>
         </div>
 
-        <!-- Form Tambah/Edit (tersembunyi awal) -->
+        <!-- Filter & Sort -->
+        <div class="controls">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="pinned">Di-pin</button>
+                <button class="filter-btn" data-filter="archived">Arsip</button>
+            </div>
+            <select id="sortSelect">
+                <option value="newest">Terbaru</option>
+                <option value="oldest">Terlama</option>
+                <option value="title">Judul A-Z</option>
+            </select>
+        </div>
+
+        <!-- Form -->
         <div id="noteFormContainer" class="note-form-container hidden">
             <form id="noteForm">
                 <input type="text" id="noteTitle" placeholder="Judul catatan..." required maxlength="100">
-                <textarea id="noteContent" placeholder="Tulis catatanmu di sini..." rows="6" required></textarea>
+                <textarea id="noteContent" placeholder="Tulis catatanmu di sini..." rows="7" required></textarea>
                 
+                <div class="form-meta">
+                    <span id="charCount">0 karakter · 0 kata</span>
+                </div>
+
                 <div class="form-row">
                     <select id="noteColor">
                         <option value="default">Default</option>
@@ -35,7 +56,7 @@
                         <option value="purple">Ungu</option>
                     </select>
                     <label class="pin-label">
-                        <input type="checkbox" id="notePinned"> Pin catatan
+                        <input type="checkbox" id="notePinned"> Pin
                     </label>
                 </div>
 
@@ -46,12 +67,24 @@
             </form>
         </div>
 
-        <!-- Daftar Catatan -->
+        <!-- Notes Grid -->
         <div id="notesList" class="notes-list"></div>
+        <p id="emptyMessage" class="empty-message hidden">Belum ada catatan.</p>
+    </div>
 
-        <p id="emptyMessage" class="empty-message hidden">
-            Belum ada catatan.<br>Yuk buat yang pertama!
-        </p>
+    <!-- Modal Detail -->
+    <div id="noteModal" class="modal hidden">
+        <div class="modal-content">
+            <button id="closeModal" class="close-btn">×</button>
+            <h2 id="modalTitle"></h2>
+            <div id="modalMeta" class="modal-meta"></div>
+            <div id="modalContent" class="modal-body"></div>
+            <div class="modal-actions">
+                <button id="modalEditBtn" class="btn primary">Edit</button>
+                <button id="modalArchiveBtn" class="btn secondary">Arsipkan</button>
+                <button id="modalDeleteBtn" class="btn danger">Hapus</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
