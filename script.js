@@ -27,6 +27,7 @@ const noteForm = document.getElementById("noteForm");
 const noteTitle = document.getElementById("noteTitle");
 const noteContent = document.getElementById("noteContent");
 const noteColor = document.getElementById("noteColor");
+const noteTags = document.getElementById("noteTags");
 const notePinned = document.getElementById("notePinned");
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -39,11 +40,13 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const exportBtn = document.getElementById("exportBtn");
 
 const noteModal = document.getElementById("noteModal");
-const closeModal = document.getElementById("closeModal");
+const closeModalBtn = document.getElementById("closeModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalMeta = document.getElementById("modalMeta");
+const modalTags = document.getElementById("modalTags");
 const modalContent = document.getElementById("modalContent");
 const modalEditBtn = document.getElementById("modalEditBtn");
+const modalDuplicateBtn = document.getElementById("modalDuplicateBtn");
 const modalArchiveBtn = document.getElementById("modalArchiveBtn");
 const modalDeleteBtn = document.getElementById("modalDeleteBtn");
 
@@ -69,20 +72,23 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-function countWords(text) {
-    return text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+function parseTags(str) {
+    if (!str) return [];
+    return str.split(",")
+        .map(t => t.trim().toLowerCase())
+        .filter(t => t.length > 0);
 }
 
 function updateCharCount() {
     const text = noteContent.value;
-    charCount.textContent = `${text.length} karakter · ${countWords(text)} kata`;
+    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    charCount.textContent = `${text.length} karakter · ${words} kata`;
 }
 
 // ========== Render ==========
 function getFilteredNotes() {
     let result = [...notes];
 
-    // Filter
     if (currentFilter === "pinned") {
         result = result.filter(n => n.pinned && !n.archived);
     } else if (currentFilter === "archived") {
@@ -91,16 +97,15 @@ function getFilteredNotes() {
         result = result.filter(n => !n.archived);
     }
 
-    // Search
     const keyword = searchInput.value.trim().toLowerCase();
     if (keyword) {
         result = result.filter(n =>
             n.title.toLowerCase().includes(keyword) ||
-            n.content.toLowerCase().includes(keyword)
+            n.content.toLowerCase().includes(keyword) ||
+            (n.tags && n.tags.some(tag => tag.includes(keyword)))
         );
     }
 
-    // Sort
     if (currentSort === "newest") {
         result.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     } else if (currentSort === "oldest") {
@@ -109,13 +114,8 @@ function getFilteredNotes() {
         result.sort((a, b) => a.title.localeCompare(b.title));
     }
 
-    // Pinned always on top (except in archived view)
     if (currentFilter !== "archived") {
-        result.sort((a, b) => {
-            if (a.pinned && !b.pinned) return -1;
-            if (!a.pinned && b.pinned) return 1;
-            return 0;
-        });
+        result.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
     }
 
     return result;
@@ -127,9 +127,6 @@ function renderNotes() {
 
     if (filtered.length === 0) {
         emptyMessage.classList.remove("hidden");
-        emptyMessage.textContent = currentFilter === "archived" 
-            ? "Arsip kosong." 
-            : "Belum ada catatan.";
         return;
     }
 
@@ -137,12 +134,15 @@ function renderNotes() {
 
     filtered.forEach(note => {
         const card = document.createElement("div");
-        card.className = `note-card ${note.color} ${note.pinned ? "pinned" : ""}`;
+        card.className = `note-card ${note.color || "default"} ${note.pinned ? "pinned" : ""}`;
         card.dataset.id = note.id;
+
+        const tagsHtml = (note.tags || []).map(t => `<span class="tag">#${t}</span>`).join("");
 
         card.innerHTML = `
             <div class="note-title">${escapeHtml(note.title)}</div>
             <div class="note-content">${escapeHtml(note.content)}</div>
+            <div class="note-tags">${tagsHtml}</div>
             <div class="note-footer">
                 <span>${formatDate(note.updatedAt)}</span>
                 <div class="note-actions">
@@ -163,6 +163,7 @@ function openForm(note = null) {
         noteTitle.value = note.title;
         noteContent.value = note.content;
         noteColor.value = note.color || "default";
+        noteTags.value = (note.tags || []).join(", ");
         notePinned.checked = note.pinned || false;
         saveBtn.textContent = "Update";
     } else {
@@ -190,11 +191,14 @@ function openModal(id) {
     modalTitle.textContent = note.title;
     modalMeta.textContent = `Dibuat: ${formatDate(note.createdAt)} · Diupdate: ${formatDate(note.updatedAt)}`;
     modalContent.textContent = note.content;
+
+    modalTags.innerHTML = (note.tags || []).map(t => `<span class="tag">#${t}</span>`).join("") || "";
     modalArchiveBtn.textContent = note.archived ? "Kembalikan" : "Arsipkan";
+
     noteModal.classList.remove("hidden");
 }
 
-function closeModalFunc() {
+function closeModal() {
     noteModal.classList.add("hidden");
     currentModalId = null;
 }
@@ -211,13 +215,14 @@ noteForm.addEventListener("submit", (e) => {
     if (!title || !content) return;
 
     const now = new Date().toISOString();
+    const tags = parseTags(noteTags.value);
 
     if (editId) {
         const index = notes.findIndex(n => n.id === editId);
         if (index !== -1) {
             notes[index] = {
                 ...notes[index],
-                title, content,
+                title, content, tags,
                 color: noteColor.value,
                 pinned: notePinned.checked,
                 updatedAt: now
@@ -226,7 +231,7 @@ noteForm.addEventListener("submit", (e) => {
     } else {
         notes.unshift({
             id: generateId(),
-            title, content,
+            title, content, tags,
             color: noteColor.value,
             pinned: notePinned.checked,
             archived: false,
@@ -240,14 +245,12 @@ noteForm.addEventListener("submit", (e) => {
     closeForm();
 });
 
-// Click pada card / tombol
 notesList.addEventListener("click", (e) => {
     const id = e.target.dataset.id || e.target.closest(".note-card")?.dataset.id;
     if (!id) return;
 
     if (e.target.classList.contains("edit-btn")) {
-        const note = notes.find(n => n.id === id);
-        openForm(note);
+        openForm(notes.find(n => n.id === id));
         return;
     }
 
@@ -260,20 +263,38 @@ notesList.addEventListener("click", (e) => {
         return;
     }
 
-    // Klik card → buka modal
     openModal(id);
 });
 
-// Modal actions
-closeModal.addEventListener("click", closeModalFunc);
+closeModalBtn.addEventListener("click", closeModal);
 noteModal.addEventListener("click", (e) => {
-    if (e.target === noteModal) closeModalFunc();
+    if (e.target === noteModal) closeModal();
 });
 
 modalEditBtn.addEventListener("click", () => {
     const note = notes.find(n => n.id === currentModalId);
-    closeModalFunc();
+    closeModal();
     openForm(note);
+});
+
+modalDuplicateBtn.addEventListener("click", () => {
+    const original = notes.find(n => n.id === currentModalId);
+    if (!original) return;
+
+    const now = new Date().toISOString();
+    notes.unshift({
+        ...original,
+        id: generateId(),
+        title: original.title + " (Salinan)",
+        pinned: false,
+        archived: false,
+        createdAt: now,
+        updatedAt: now
+    });
+
+    saveNotes();
+    renderNotes();
+    closeModal();
 });
 
 modalArchiveBtn.addEventListener("click", () => {
@@ -283,7 +304,7 @@ modalArchiveBtn.addEventListener("click", () => {
         note.updatedAt = new Date().toISOString();
         saveNotes();
         renderNotes();
-        closeModalFunc();
+        closeModal();
     }
 });
 
@@ -292,11 +313,10 @@ modalDeleteBtn.addEventListener("click", () => {
         notes = notes.filter(n => n.id !== currentModalId);
         saveNotes();
         renderNotes();
-        closeModalFunc();
+        closeModal();
     }
 });
 
-// Filter & Sort
 filterButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         filterButtons.forEach(b => b.classList.remove("active"));
@@ -313,20 +333,27 @@ sortSelect.addEventListener("change", () => {
 
 searchInput.addEventListener("input", renderNotes);
 
-// Export
 exportBtn.addEventListener("click", () => {
-    if (notes.length === 0) {
-        alert("Tidak ada catatan untuk diexport");
-        return;
-    }
-    const data = JSON.stringify(notes, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
+    if (notes.length === 0) return alert("Tidak ada catatan");
+    const blob = new Blob([JSON.stringify(notes, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `notes-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `notes-${new Date().toISOString().slice(0,10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "n") {
+        e.preventDefault();
+        openForm();
+    }
+    if (e.key === "Escape") {
+        closeForm();
+        closeModal();
+    }
 });
 
 // Init

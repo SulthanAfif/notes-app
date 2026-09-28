@@ -64,7 +64,6 @@ h1 {
 .header-actions {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
 }
 
 .dark-mode-btn, .icon-btn {
@@ -87,7 +86,6 @@ h1 {
     transform: scale(1.05);
 }
 
-/* Toolbar */
 .toolbar {
     display: flex;
     gap: 0.8rem;
@@ -129,7 +127,6 @@ h1 {
 .btn.secondary:hover { border-color: var(--text-secondary); }
 .btn.danger { background: var(--danger); color: white; }
 
-/* Controls */
 .controls {
     display: flex;
     justify-content: space-between;
@@ -139,10 +136,7 @@ h1 {
     gap: 0.7rem;
 }
 
-.filters {
-    display: flex;
-    gap: 0.4rem;
-}
+.filters { display: flex; gap: 0.4rem; }
 
 .filter-btn {
     padding: 0.4rem 0.9rem;
@@ -186,7 +180,7 @@ h1 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-#noteTitle, #noteContent {
+#noteTitle, #noteContent, #noteTags {
     width: 100%;
     padding: 0.8rem 1rem;
     border: 2px solid var(--border);
@@ -198,18 +192,11 @@ h1 {
     margin-bottom: 0.7rem;
 }
 
-#noteTitle {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
+#noteTitle { font-size: 1.1rem; font-weight: 600; }
+#noteContent { font-size: 0.95rem; resize: vertical; min-height: 140px; }
+#noteTags { font-size: 0.9rem; }
 
-#noteContent {
-    font-size: 0.95rem;
-    resize: vertical;
-    min-height: 140px;
-}
-
-#noteTitle:focus, #noteContent:focus { border-color: var(--primary); }
+#noteTitle:focus, #noteContent:focus, #noteTags:focus { border-color: var(--primary); }
 
 .form-meta {
     font-size: 0.8rem;
@@ -219,7 +206,7 @@ h1 {
 
 .form-row {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     align-items: center;
     margin-bottom: 1rem;
     flex-wrap: wrap;
@@ -241,10 +228,7 @@ h1 {
     cursor: pointer;
 }
 
-.form-actions {
-    display: flex;
-    gap: 0.7rem;
-}
+.form-actions { display: flex; gap: 0.7rem; }
 
 /* Notes Grid */
 .notes-list {
@@ -298,11 +282,30 @@ h1 {
     flex: 1;
     white-space: pre-wrap;
     word-break: break-word;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.7rem;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.7rem;
+}
+
+.tag {
+    font-size: 0.72rem;
+    background: rgba(0,0,0,0.08);
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    color: var(--text-secondary);
+}
+
+body.dark-mode .tag {
+    background: rgba(255,255,255,0.1);
 }
 
 .note-footer {
@@ -329,6 +332,7 @@ h1 {
     padding: 4rem 1rem;
     color: var(--text-secondary);
     font-size: 1.05rem;
+    line-height: 1.6;
 }
 
 /* Modal */
@@ -368,13 +372,20 @@ h1 {
 
 #modalTitle {
     font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     padding-right: 2rem;
 }
 
 .modal-meta {
     font-size: 0.85rem;
     color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+}
+
+.modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
     margin-bottom: 1.2rem;
 }
 
@@ -388,7 +399,7 @@ h1 {
 
 .modal-actions {
     display: flex;
-    gap: 0.7rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
 }
 
@@ -399,4 +410,5 @@ h1 {
     .btn { width: 100%; }
     .notes-list { grid-template-columns: 1fr; }
     .controls { flex-direction: column; align-items: stretch; }
+    .form-row { flex-direction: column; align-items: stretch; }
 }

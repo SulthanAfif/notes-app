@@ -11,18 +11,16 @@
         <header>
             <h1>Notes App</h1>
             <div class="header-actions">
-                <button id="exportBtn" class="icon-btn" title="Export">📥</button>
+                <button id="exportBtn" class="icon-btn" title="Export JSON">📥</button>
                 <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
             </div>
         </header>
 
-        <!-- Toolbar -->
         <div class="toolbar">
-            <input type="text" id="searchInput" placeholder="Cari catatan...">
+            <input type="text" id="searchInput" placeholder="Cari catatan atau tag...">
             <button id="addNoteBtn" class="btn primary">+ Baru</button>
         </div>
 
-        <!-- Filter & Sort -->
         <div class="controls">
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">Semua</button>
@@ -41,7 +39,7 @@
             <form id="noteForm">
                 <input type="text" id="noteTitle" placeholder="Judul catatan..." required maxlength="100">
                 <textarea id="noteContent" placeholder="Tulis catatanmu di sini..." rows="7" required></textarea>
-                
+
                 <div class="form-meta">
                     <span id="charCount">0 karakter · 0 kata</span>
                 </div>
@@ -55,6 +53,9 @@
                         <option value="pink">Pink</option>
                         <option value="purple">Ungu</option>
                     </select>
+
+                    <input type="text" id="noteTags" placeholder="Tags (pisahkan dengan koma)">
+                    
                     <label class="pin-label">
                         <input type="checkbox" id="notePinned"> Pin
                     </label>
@@ -67,20 +68,21 @@
             </form>
         </div>
 
-        <!-- Notes Grid -->
         <div id="notesList" class="notes-list"></div>
-        <p id="emptyMessage" class="empty-message hidden">Belum ada catatan.</p>
+        <p id="emptyMessage" class="empty-message hidden">Belum ada catatan.<br>Tekan <strong>Ctrl + N</strong> atau klik tombol + Baru</p>
     </div>
 
-    <!-- Modal Detail -->
+    <!-- Modal -->
     <div id="noteModal" class="modal hidden">
         <div class="modal-content">
             <button id="closeModal" class="close-btn">×</button>
             <h2 id="modalTitle"></h2>
             <div id="modalMeta" class="modal-meta"></div>
+            <div id="modalTags" class="modal-tags"></div>
             <div id="modalContent" class="modal-body"></div>
             <div class="modal-actions">
                 <button id="modalEditBtn" class="btn primary">Edit</button>
+                <button id="modalDuplicateBtn" class="btn secondary">Duplikat</button>
                 <button id="modalArchiveBtn" class="btn secondary">Arsipkan</button>
                 <button id="modalDeleteBtn" class="btn danger">Hapus</button>
             </div>
