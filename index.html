@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Notes App</h1>
+            <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+        </header>
+
+        <!-- Search & Add -->
+        <div class="toolbar">
+            <input type="text" id="searchInput" placeholder="Cari catatan...">
+            <button id="addNoteBtn" class="btn primary">+ Catatan Baru</button>
+        </div>
+
+        <!-- Form Tambah/Edit (tersembunyi awal) -->
+        <div id="noteFormContainer" class="note-form-container hidden">
+            <form id="noteForm">
+                <input type="text" id="noteTitle" placeholder="Judul catatan..." required maxlength="100">
+                <textarea id="noteContent" placeholder="Tulis catatanmu di sini..." rows="6" required></textarea>
+                
+                <div class="form-row">
+                    <select id="noteColor">
+                        <option value="default">Default</option>
+                        <option value="yellow">Kuning</option>
+                        <option value="blue">Biru</option>
+                        <option value="green">Hijau</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Ungu</option>
+                    </select>
+                    <label class="pin-label">
+                        <input type="checkbox" id="notePinned"> Pin catatan
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="saveBtn" class="btn primary">Simpan</button>
+                    <button type="button" id="cancelBtn" class="btn secondary">Batal</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Daftar Catatan -->
+        <div id="notesList" class="notes-list"></div>
+
+        <p id="emptyMessage" class="empty-message hidden">
+            Belum ada catatan.<br>Yuk buat yang pertama!
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

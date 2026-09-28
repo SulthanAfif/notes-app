@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f1f5f9;
+    --container-bg: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --border: #e2e8f0;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --yellow: #fef08a;
+    --blue: #bfdbfe;
+    --green: #bbf7d0;
+    --pink: #fbcfe8;
+    --purple: #e9d5ff;
+}
+
+body.dark-mode {
+    --bg: #0f172a;
+    --container-bg: #1e293b;
+    --text: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --yellow: #854d0e;
+    --blue: #1e3a8a;
+    --green: #14532d;
+    --pink: #9d174d;
+    --purple: #6b21a8;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.dark-mode-btn {
+    background: none;
+    border: 2px solid var(--border);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.dark-mode-btn:hover {
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+#searchInput {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.8rem 1.1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background: var(--container-bg);
+    color: var(--text);
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: var(--primary);
+}
+
+.btn {
+    padding: 0.8rem 1.4rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn.primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn.secondary {
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.btn.secondary:hover {
+    border-color: var(--text-secondary);
+}
+
+/* Form */
+.note-form-container {
+    background: var(--container-bg);
+    border-radius: 16px;
+    padding: 1.4rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#noteTitle {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: var(--bg);
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    outline: none;
+}
+
+#noteContent {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+    min-height: 120px;
+    margin-bottom: 0.9rem;
+    outline: none;
+    font-family: inherit;
+}
+
+#noteTitle:focus,
+#noteContent:focus {
+    border-color: var(--primary);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+#noteColor {
+    padding: 0.6rem 0.9rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.pin-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.7rem;
+}
+
+/* Notes Grid */
+.notes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.note-card {
+    background: var(--container-bg);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    border-left: 5px solid transparent;
+}
+
+.note-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.note-card.yellow { border-left-color: #eab308; background: var(--yellow); }
+.note-card.blue { border-left-color: #3b82f6; background: var(--blue); }
+.note-card.green { border-left-color: #22c55e; background: var(--green); }
+.note-card.pink { border-left-color: #ec4899; background: var(--pink); }
+.note-card.purple { border-left-color: #a855f7; background: var(--purple); }
+
+.note-card.pinned::before {
+    content: "📌";
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 0.9rem;
+}
+
+.note-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    padding-right: 1.5rem;
+    word-break: break-word;
+}
+
+.note-content {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.85;
+    flex: 1;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.note-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.note-actions button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 0.2rem;
+    transition: opacity 0.2s;
+}
+
+.note-actions button:hover {
+    opacity: 1;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 500px) {
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .notes-list {
+        grid-template-columns: 1fr;
+    }
+}
